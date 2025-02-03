@@ -18,6 +18,7 @@ jobs:
           username: ${{ secrets.VH_SSH_USER }}
           key: ${{ secrets.VH_SSH_KEY }}
           port: 22
+          debug: true
           script: |
             cd /www/hosting/beer-quiz/www
             git pull origin main
