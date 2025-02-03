@@ -1,0 +1,16 @@
+name: remote ssh command
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VH_SSH_HOST }}
+          username: ${{ secrets.VH_SSH_USER }}
+          password: ${{ secrets.VH_SSH_PASSWORD }}
+          port: ${{ secrets.VH_SSH_PORT }}
+          script: whoami
