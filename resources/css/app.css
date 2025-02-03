@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.router-link-active {
+    color: black;
+    text-decoration: none;
+    background-color: unset;
+}
+
+.bg-primary {
+    background-color: #f7c859;
+}
+
+.bg-primary-lighter {
+    background-color: #ffdf94;
+}
+
+.text-primary {
+    color: #f7c859;
+}
+
+.test {
+    color: #104dc1;
+}
