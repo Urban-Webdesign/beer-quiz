@@ -11,6 +11,7 @@ jobs:
         with:
           host: ${{ secrets.VH_SSH_HOST }}
           username: ${{ secrets.VH_SSH_USER }}
-          password: ${{ secrets.VH_SSH_PASSWORD }}
+          key: ${{ secrets.VH_SSH_KEY }}
           port: ${{ secrets.VH_SSH_PORT }}
           script: whoami
+          debug: true
