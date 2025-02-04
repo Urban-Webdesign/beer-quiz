@@ -23,7 +23,7 @@ jobs:
             # 1️⃣ Ověříme, jestli existuje Git repo, pokud ne, naklonujeme ho
             if [ ! -d "www/.git" ]; then
               echo "Git repo nenalezeno, klonuji..."
-              git clone git@github.com:USERNAME/beer-quiz.git www
+              git clone git@github.com:Urban-Webdesign/beer-quiz.git www
             fi
 
             # 2️⃣ Přesuneme se do složky aplikace
