@@ -18,14 +18,41 @@ jobs:
           username: ${{ secrets.VH_SSH_USER }}
           key: ${{ secrets.VH_SSH_KEY }}
           script: |
-            cd /www/hosting/beer-quiz/www
+            cd /www/hosting/beer-quiz || exit 1
+
+            # 1️⃣ Ověříme, jestli existuje Git repo, pokud ne, naklonujeme ho
+            if [ ! -d "www/.git" ]; then
+              echo "Git repo nenalezeno, klonuji..."
+              git clone git@github.com:USERNAME/beer-quiz.git www
+            fi
+
+            # 2️⃣ Přesuneme se do složky aplikace
+            cd www || exit 1
+
+            # 3️⃣ Stáhneme nejnovější změny
+            git reset --hard
             git pull origin main
+
+            # 4️⃣ Instalace PHP balíčků přes Composer
             composer install --no-interaction --prefer-dist --optimize-autoloader
-            npm install
-            npm run build
-            php artisan migrate --force
-            php artisan config:clear
-            php artisan cache:clear
-            php artisan route:cache
-            php artisan view:cache
-            php artisan storage:link
+
+            # 5️⃣ Instalace JS balíčků a build
+            if [ -f package.json ]; then
+              npm install
+              npm run build
+            else
+              echo "⚠️ package.json nenalezen, přeskočeno."
+            fi
+
+            # 6️⃣ Migrace databáze a cache
+            if [ -f artisan ]; then
+              php artisan migrate --force
+              php artisan config:clear
+              php artisan cache:clear
+              php artisan route:cache
+              php artisan view:cache
+              php artisan storage:link
+            else
+              echo "⚠️ Laravel nenalezen (chybí artisan), nasazení selhalo!"
+              exit 1
+            fi
