@@ -30,8 +30,12 @@ jobs:
 
             # 2️⃣ Instalace PHP balíčků (Composer)
             echo "📦 Instalace PHP balíčků..."
-            /usr/bin/composer install --no-dev --optimize-autoloader
-
+            if [ ! -d vendor ]; then
+              /usr/bin/composer install --no-dev --optimize-autoloader
+            else
+              /usr/bin/composer update --no-dev --optimize-autoloader
+            fi
+            
             # 3️⃣ Instalace JS balíčků a build (NPM)
             if [ -f package.json ]; then
               echo "📦 Instalace JS balíčků..."
