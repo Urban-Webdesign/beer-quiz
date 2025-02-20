@@ -1,0 +1,60 @@
+name: (2/2) Deploy Laravel - Setup & Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH to Server & Deploy Laravel
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.WEBGLOBE_SSH_HOST }}
+          username: ${{ secrets.WEBGLOBE_SSH_USER }}
+          password: ${{ secrets.WEBGLOBE_SSH_PASSWORD }}
+          port: ${{ secrets.WEBGLOBE_SSH_PORT }}
+          script: |
+            bash -c '
+            cd public_html/beer_quiz
+
+            echo "🚀 Spouštím nasazení Laravel aplikace..."
+
+            # 1️⃣ Kontrola existence .env souboru
+            if [ ! -f .env ]; then
+              echo "❌ Chybí .env soubor! Zastavuji nasazení."
+              exit 1
+            fi
+            echo "✅ .env soubor nalezen, pokračuji..."
+
+            # 2️⃣ Instalace PHP balíčků (Composer)
+            echo "📦 Instalace PHP balíčků..."
+            /usr/bin/composer install --no-dev --optimize-autoloader
+
+            # 3️⃣ Instalace JS balíčků a build (NPM)
+            if [ -f package.json ]; then
+              echo "📦 Instalace JS balíčků..."
+              npm install
+              echo "🔧 Build frontend..."
+              npm run build
+            else
+              echo "⚠️ package.json nenalezen, přeskočeno."
+            fi
+
+            # 4️⃣ Migrace databáze
+            echo "📊 Spouštění migrací..."
+            /usr/bin/php8.3 artisan migrate --force
+
+            # 5️⃣ Cache & optimalizace
+            echo "🚀 Nastavuji cache a optimalizaci..."
+            /usr/bin/php8.3 artisan config:cache
+            /usr/bin/php8.3 artisan route:cache
+            /usr/bin/php8.3 artisan view:cache
+
+            # 6️⃣ Storage link
+            echo "🔗 Vytvářím storage link..."
+            /usr/bin/php8.3 artisan storage:link
+
+            echo "✅ Laravel aplikace byla úspěšně nasazena!"
+            '
