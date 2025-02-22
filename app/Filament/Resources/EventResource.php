@@ -32,8 +32,7 @@ class EventResource extends Resource
 		            ->schema([
 			            TextInput::make('position')
 				            ->label('Pořadí')
-				            ->numeric()
-                            ->disabled(),
+				            ->numeric(),
 
 			            Select::make('team_id')
 				            ->label('Tým')

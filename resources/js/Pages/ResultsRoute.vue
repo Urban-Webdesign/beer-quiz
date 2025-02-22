@@ -22,7 +22,7 @@ fetchTeams();
 
     <div
         v-if="events && events.length"
-        class="flex flex-col gap-2 text-left text-gray-700"
+        class="flex flex-col gap-2 text-left text-gray-900"
     >
         <div
             v-for="event in events"

@@ -9,9 +9,13 @@ class TeamController extends Controller
     // Získání všech záznamů z tabulky 'teams'
     public function index()
     {
-        $teams = Team::withCount('results')->get();
+        $teams = Team::withCount([
+			'results',
+	        'results as victories_count' => function ($query) {
+		        $query->where('position', 1);
+	        }])->get();
 
-        // Řazení v PHP podle českého locale
+        // Řazení v PHP podle českého locales
         $teams = $teams->sort(function ($a, $b) {
             return collator_create('cs')->compare($a->name, $b->name);
         })->values(); // Resetuje klíče po seřazení

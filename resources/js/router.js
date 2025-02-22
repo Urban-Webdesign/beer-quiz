@@ -18,6 +18,10 @@ const routes = [
         path: "/tymy",
         component: () => import("./Pages/TeamsRoute.vue"),
     },
+    {
+        path: "/registrace",
+        component: () => import("./Pages/RegistrationRoute.vue"),
+    },
 ];
 
 export default createRouter({

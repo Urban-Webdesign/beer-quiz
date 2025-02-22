@@ -35,7 +35,12 @@
                 <router-link
                     class="underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
                     to="/tymy"
-                    >Týmy</router-link
+                >Týmy</router-link
+                >
+                <router-link
+                    class="underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
+                    to="/registrace"
+                >Registrace</router-link
                 >
             </div>
         </div>
@@ -68,3 +73,5 @@
   opacity: 1;
 }
 </style>
+<script setup lang="ts">
+</script>

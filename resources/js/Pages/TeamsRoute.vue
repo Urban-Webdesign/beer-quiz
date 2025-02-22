@@ -25,12 +25,13 @@ fetchTeams();
         v-if="teams && teams.length"
     >
         <div
-            class="border-2 border-gray-700 p-2 md:p-4 font-semibold flex flex-col items-center gap-3"
+            class="border-2 border-gray-700 p-2 md:p-4 font-semibold flex flex-col items-center"
             v-for="team in teams"
             :key="team.id"
         >
-            <span class="text-xl font-black">{{ team.name }}</span>
+            <span class="text-xl font-black mb-2">{{ team.name }}</span>
             <span>účasti: {{ team.results_count }}</span>
+            <span v-if="team.victories_count > 0">vítězství: {{ team.victories_count }}</span>
         </div>
     </div>
     <p v-else>Žádné týmy nebyly nalezeny.</p>
