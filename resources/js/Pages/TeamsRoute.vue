@@ -31,7 +31,7 @@ fetchTeams();
         >
             <span class="text-xl font-black mb-2">{{ team.name }}</span>
             <span>účasti: {{ team.results_count }}</span>
-            <span v-if="team.victories_count > 0">vítězství: {{ team.victories_count }}</span>
+            <span v-if="team.victories_count > 0">🏆 {{ team.victories_count }}</span>
         </div>
     </div>
     <p v-else>Žádné týmy nebyly nalezeny.</p>

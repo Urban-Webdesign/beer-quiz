@@ -9,7 +9,7 @@ class Result extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['event_id', 'team_id', 'score', 'position'];
+    protected $fillable = ['event_id', 'team_id', 'score', 'position', 'order'];
 
     public function team()
     {

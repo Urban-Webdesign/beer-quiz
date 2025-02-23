@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EventResource\Pages;
 use App\Models\Event;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -25,13 +26,19 @@ class EventResource extends Resource
             ->schema([
                 TextInput::make('name')->name('Název'),
 				DatePicker::make('date')->name('Datum konání'),
+				Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false),
 
 	            Repeater::make('results')
 		            ->label('Výsledky')
 		            ->relationship('results')
 		            ->schema([
-			            TextInput::make('position')
+			            TextInput::make('order')
 				            ->label('Pořadí')
+				            ->numeric()
+				            ->hidden(),
+
+			            TextInput::make('position')
+				            ->label('Umístění')
 				            ->numeric(),
 
 			            Select::make('team_id')
@@ -48,7 +55,7 @@ class EventResource extends Resource
 		            ])
 		            ->columnSpan(2)
 		            ->columns(3)
-	                ->orderColumn('position'),
+	                ->orderColumn('order'),
             ]);
     }
 

@@ -22,6 +22,19 @@ const fetchEventResults = async () => {
 
         previousEventId.value = response.data.previous_event_id || null;
         nextEventId.value = response.data.next_event_id || null;
+
+      // Najdi nejvyšší skóre
+      const maxScore = Math.max(...results.value.map(r => r.score));
+
+      // Spočítej, kolik týmů má nejvyšší skóre
+      const teamsWithMaxScore = results.value.filter(r => r.score === maxScore);
+
+      // Nastav inShootout pouze pokud jsou alespoň dva týmy se stejným nejvyšším skóre
+      const isShootout = teamsWithMaxScore.length > 1;
+      results.value.forEach(r => {
+        r.inShootout = isShootout && r.score === maxScore;
+      });
+
     } catch (error) {
         // Do something with the error
         console.log("Chyba při načítání události:", error);
@@ -91,14 +104,24 @@ watch(
                         v-for="result in results"
                         :key="result.id"
                     >
-                        <div class="font-black order-2 sm:order-1">
+                        <div class="font-black order-2 sm:order-1 flex items-center gap-2">
                             {{ result.team.name }}
+
+                            <div v-if="result.inShootout" class="tooltip rounded-full w-7 h-7 text-base bg-primary-lighter flex justify-center items-center">
+                              <span class="relative left-[1px] -top-[.5px]">🎯</span>
+                              <span class="tooltiptext bg-white/90 text-gray-900 text-sm p-2">Rozstřel</span>
+                            </div>
                         </div>
                         <div class="order-3 sm:order-2">
                             ({{ result.score }} bodů)
                         </div>
-                        <div class="font-bold order-1 sm:order-3">
-                            {{ result.position }}.
+                        <div class="font-bold order-1 sm:order-3 m-auto cursor-default flex items-center gap-1">
+
+                            <div v-if="result.position === 1" class="tooltip rounded-full w-10 h-10 bg-amber-50 flex justify-center items-center">🏆
+                              <span class="tooltiptext bg-white/90 text-gray-900 text-sm p-2">Vítězství</span>
+                            </div>
+
+                            {{ result.position !== 1 ? result.position + '.' : ''}}
                         </div>
                     </div>
                 </div>

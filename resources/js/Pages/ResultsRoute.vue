@@ -38,7 +38,7 @@ fetchTeams();
                     {{ event.name }}
                 </a>
                 <div class="text-sm md:text-base font-normal pl-3 md:pl-4">
-                    vítěz:
+                  🏆<span v-if="event.shootout">🎯</span>&nbsp;
                     <span class="font-black">{{ event.winning_team }}</span
                     >, zúčastněných týmů:
                     <span class="font-black">{{ event.teams_count }}</span
