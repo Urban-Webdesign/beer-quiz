@@ -23,22 +23,22 @@
                 class="flex max-w-full w-72 flex-col justify-center items-strech text-center font-bold md:text-lg sm:flex-row gap-3 p-4"
             >
                 <router-link
-                    class="underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
+                    class="rounded underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
                     to="/"
                     >Úvod</router-link
                 >
                 <router-link
-                    class="underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
+                    class="rounded underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
                     to="/vysledky"
                     >Výsledky</router-link
                 >
                 <router-link
-                    class="underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
+                    class="rounded underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
                     to="/tymy"
                 >Týmy</router-link
                 >
                 <router-link
-                    class="underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
+                    class="rounded underline hover:no-underline px-3 py-2 sm:p-3 bg-white/80 hover:bg-white/50"
                     to="/registrace"
                 >Registrace</router-link
                 >
@@ -51,8 +51,8 @@
     >
         <router-view v-slot="{ Component, route }">
             <div :key="route.name">
-              <transition name="fade">
-                <component :is="Component" :key="route.path" />
+              <transition name="fade" mode="out-in">
+                <component :is="Component" :key="route.path"/>
               </transition>
             </div>
         </router-view>
@@ -62,7 +62,7 @@
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity .4s ease;
 }
 .fade-enter-from,
 .fade-leave-to {

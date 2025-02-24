@@ -27,12 +27,12 @@ fetchTeams();
         <div
             v-for="event in events"
             :key="event.id"
-            class="grid grid-cols-1 md:grid-cols-[1fr,3fr] items-center gap-1 border-2 border-gray-700 p-2 md:p-4 text-lg md:text-xl"
+            class="rounded grid grid-cols-1 md:grid-cols-[1fr,3fr] items-center gap-1 border-2 border-gray-700 p-2 md:p-4 text-lg md:text-xl"
         >
             <td class="font-semibold pl-3 md:pl-4">{{ event.date }}</td>
             <td class="font-black flex flex-col gap-2">
                 <a
-                    class="hover:text-black px-3 py-2 md:p-3 underline hover:no-underline bg-white/80 hover:bg-white/50"
+                    class="rounded hover:text-black px-3 py-2 md:p-3 underline hover:no-underline bg-white/80 hover:bg-white/50"
                     :href="`/kviz-${event.id}`"
                 >
                     {{ event.name }}

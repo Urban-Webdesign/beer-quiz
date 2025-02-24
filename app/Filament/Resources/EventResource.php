@@ -20,42 +20,42 @@ class EventResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-	public static function form(Form $form): Form
+    public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('name')->name('Název'),
-				DatePicker::make('date')->name('Datum konání'),
-				Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false),
+                DatePicker::make('date')->name('Datum konání'),
+                Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false),
 
-	            Repeater::make('results')
-		            ->label('Výsledky')
-		            ->relationship('results')
-		            ->schema([
-			            TextInput::make('order')
-				            ->label('Pořadí')
-				            ->numeric()
-				            ->hidden(),
+                Repeater::make('results')
+                    ->label('Výsledky')
+                    ->relationship('results')
+                    ->schema([
+                        TextInput::make('order')
+                            ->label('Pořadí')
+                            ->numeric()
+                            ->hidden(),
 
-			            TextInput::make('position')
-				            ->label('Umístění')
-				            ->numeric(),
+                        TextInput::make('position')
+                            ->label('Umístění')
+                            ->numeric(),
 
-			            Select::make('team_id')
-				            ->label('Tým')
-				            ->relationship('team', 'name')
-				            ->searchable()
-				            ->preload()
-				            ->required(),
+                        Select::make('team_id')
+                            ->label('Tým')
+                            ->relationship('team', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
 
-			            TextInput::make('score')
-				            ->label('Skóre')
-				            ->numeric()
-				            ->required(),
-		            ])
-		            ->columnSpan(2)
-		            ->columns(3)
-	                ->orderColumn('order'),
+                        TextInput::make('score')
+                            ->label('Skóre')
+                            ->numeric()
+                            ->required(),
+                    ])
+                    ->columnSpan(2)
+                    ->columns(3)
+                    ->orderColumn('order'),
             ]);
     }
 
@@ -64,8 +64,8 @@ class EventResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Název')->searchable()->sortable(),
-				Tables\Columns\TextColumn::make('date')->date('d. m. Y')->label('Datum konání')->sortable(),
-	            Tables\Columns\TextColumn::make('results_count')->counts('results')->badge()->color('gray')->label('Počet týmů')->sortable(),
+                Tables\Columns\TextColumn::make('date')->date('d. m. Y')->label('Datum konání')->sortable(),
+                Tables\Columns\TextColumn::make('results_count')->counts('results')->badge()->color('gray')->label('Počet týmů')->sortable(),
             ])
             ->filters([
                 //
@@ -78,7 +78,7 @@ class EventResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-	        ->defaultSort('date', 'desc');
+            ->defaultSort('date', 'desc');
     }
 
     public static function getRelations(): array

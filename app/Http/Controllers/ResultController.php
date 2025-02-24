@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Result;
 use App\Models\Event;
+use App\Models\Result;
 
 class ResultController extends Controller
 {
@@ -11,12 +11,13 @@ class ResultController extends Controller
     public function showResultsByEvent($id = null)
     {
 
-        if ($id === null)
+        if ($id === null) {
             $event = Event::orderBy('id', 'desc')->first();
-        else
+        } else {
             $event = Event::where('id', $id)->first();
+        }
 
-        if (!$event) {
+        if (! $event) {
             return response()->json(['message' => 'No events found'], 404);
         }
 

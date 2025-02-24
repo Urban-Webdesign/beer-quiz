@@ -50,20 +50,30 @@ onMounted(() => {
 watch(
     () => route.params.id,
     () => {
-        fetchEventResults();
+      fetchEventResults();
     }
 );
 </script>
 
 <template>
     <div>
-        <div class="grid grid-cols-2 lg:grid-cols-[1fr,4fr,1fr] gap-4">
-            <a
-                class="order-2 lg:order-1 lg:h-full flex flex-col gap-3 justify-center items-center uppercase px-3 py-2 bg-white/25 hover:bg-white/50"
-                :class="{ 'opacity-50 pointer-events-none': !previousEventId }"
-                :href="previousEventId ? `/kviz-${previousEventId}` : ''"
-                :aria-disabled="!previousEventId"
-            >
+
+       <span
+           v-if="event"
+           class="font-semibold text-xl block text-center"
+       >{{ event.date }}</span
+       >
+      <h2 class="text-3xl font-black mb-2 text-center" v-if="event">
+        {{ event.name }}
+      </h2>
+
+        <div class="grid grid-cols-2 lg:grid-cols-[1fr,4fr,1fr] lg:items-center gap-4">
+          <router-link
+              class="order-2 lg:order-1 rounded lg:h-60 flex flex-col gap-3 justify-center items-center uppercase px-3 py-2 bg-white/25 hover:bg-white/50"
+              :class="{ 'opacity-50 pointer-events-none': !previousEventId }"
+              :to="previousEventId ? `/kviz-${previousEventId}` : ''"
+              :aria-disabled="!previousEventId"
+          >
                 <svg
                     class="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-gray-800"
                     aria-hidden="true"
@@ -82,19 +92,9 @@ watch(
                     />
                 </svg>
 
-                Předchozí</a
-            >
+            Předchozí</router-link>
 
             <div class="col-span-2 lg:col-span-1 order-1 lg:order-2">
-                <span
-                    v-if="event"
-                    class="font-semibold text-xl block text-center"
-                    >{{ event.date }}</span
-                >
-                <h2 class="text-3xl font-black mb-2 text-center" v-if="event">
-                    {{ event.name }}
-                </h2>
-
                 <div
                     v-if="results && results.length"
                     class="border-4 border-gray-700 border-dotted p-2 sm:p-4 md:p-8 text-xl"
@@ -130,12 +130,12 @@ watch(
                 </p>
             </div>
 
-            <a
-                class="order-2 lg:order-3 lg:h-full flex flex-col gap-3 justify-center items-center uppercase px-3 py-2 bg-white/25 hover:bg-white/50"
-                :class="{ 'opacity-50 pointer-events-none': !nextEventId }"
-                :href="nextEventId ? `/kviz-${nextEventId}` : ''"
-                :aria-disabled="!nextEventId"
-            >
+          <router-link
+              class="rounded order-2 lg:order-3 lg:h-60 flex flex-col gap-3 justify-center items-center uppercase px-3 py-2 bg-white/25 hover:bg-white/50"
+              :class="{ 'opacity-50 pointer-events-none': !nextEventId }"
+              :to="nextEventId ? `/kviz-${nextEventId}` : ''"
+              :aria-disabled="!nextEventId"
+          >
                 <svg
                     class="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-gray-800"
                     aria-hidden="true"
@@ -154,7 +154,7 @@ watch(
                     />
                 </svg>
                 Další
-            </a>
+          </router-link>
         </div>
     </div>
 </template>

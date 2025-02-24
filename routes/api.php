@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\TeamController;
+use Illuminate\Support\Facades\Route;
 
-Route::get("/test-me", function () {
+Route::get('/test-me', function () {
     return 'Hello from Laravel!';
 });
 
