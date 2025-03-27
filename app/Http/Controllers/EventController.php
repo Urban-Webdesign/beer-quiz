@@ -11,6 +11,7 @@ class EventController extends Controller
     {
         $events = Event::with('results.team') // Nahráváme výsledky pro práci s body
             ->withCount('results as teams_count') // Počet týmů na základě výsledků
+	        ->withCount('registrations as registrations_count')
             ->orderBy('date', 'desc')
             ->get()
             ->map(function ($event) {
@@ -47,4 +48,15 @@ class EventController extends Controller
 
         return response()->json($event);
     }
+
+	public function upcoming()
+	{
+		$events = Event::where('status', '!=', 'finished')->orderBy('date')->get();
+
+		if (! $events) {
+			return response()->json(['message' => 'Events not found'], 404);
+		}
+
+		return response()->json($events);
+	}
 }

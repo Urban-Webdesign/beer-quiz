@@ -6,20 +6,23 @@ const routes = [
         component: () => import("./Pages/HomeRoute.vue"),
     },
     {
-        path: "/kviz-:id", // Dynamic route for events
-        component: () => import("./Pages/HomeRoute.vue"),
-        name: "event",
+        path: "/kviz",
+        component: () => import("./Pages/ResultsRoute.vue"),
     },
     {
-        path: "/vysledky",
+        path: "/kviz-:id", // Dynamic route for events
         component: () => import("./Pages/ResultsRoute.vue"),
+    },
+    {
+        path: "/kalendar",
+        component: () => import("./Pages/CalendarRoute.vue"),
     },
     {
         path: "/tymy",
         component: () => import("./Pages/TeamsRoute.vue"),
     },
     {
-        path: "/registrace",
+        path: "/registrace-:id",
         component: () => import("./Pages/RegistrationRoute.vue"),
     },
 ];

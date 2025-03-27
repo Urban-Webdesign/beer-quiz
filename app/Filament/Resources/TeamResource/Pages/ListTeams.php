@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListTeams extends ListRecords
 {
     protected static string $resource = TeamResource::class;
+	protected int | string | null $defaultTableRecordsPerPageSelectOption = 50;
 
     protected function getHeaderActions(): array
     {

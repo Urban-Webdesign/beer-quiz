@@ -9,6 +9,8 @@ use Filament\Resources\Pages\ListRecords;
 class ListEvents extends ListRecords
 {
     protected static string $resource = EventResource::class;
+	
+	protected int | string | null $defaultTableRecordsPerPageSelectOption = 50;
 
     protected function getHeaderActions(): array
     {

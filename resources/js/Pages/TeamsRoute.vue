@@ -23,11 +23,11 @@ fetchTeams();
       <h2 class="text-2xl font-bold">Týmy podle počtu účastí</h2>
 
       <div class="flex flex-row gap-2">
-        <div class="tooltip rounded w-10 h-10 bg-primary-lighter flex justify-center items-center">🏆
-          <span class="tooltiptext bg-white/90 text-gray-900 text-sm p-2">Vítězství</span>
+        <div class="tooltip rounded shadow w-10 h-10 bg-primary-lighter flex justify-center items-center">🏆
+          <span class="tooltiptext bg-white shadow-sm text-gray-900 text-sm p-2">Vítězství</span>
         </div>
-        <div class="tooltip rounded w-10 h-10 bg-primary-lighter flex justify-center items-center">🎯
-          <span class="tooltiptext bg-white/90 text-gray-900 text-sm p-2">Rozstřelů</span>
+        <div class="tooltip rounded shadow w-10 h-10 bg-primary-lighter flex justify-center items-center">🎯
+          <span class="tooltiptext bg-white shadow-sm text-gray-900 text-sm p-2">Rozstřelů</span>
         </div>
       </div>
     </div>
@@ -37,15 +37,15 @@ fetchTeams();
         v-if="teams && teams.length"
     >
         <div
-            class="rounded border-2 border-gray-700 p-2 md:p-4 font-semibold flex flex-col gap-1 items-center"
+            class="rounded shadow-md bg-gray-50 p-2 md:p-4 font-semibold flex flex-col gap-1 items-center"
             v-for="team in teams"
             :key="team.id"
         >
             <span class="text-xl font-black">{{ team.name }}</span>
             <span>účastí: {{ team.results_count }}</span>
             <div class="flex flex-row gap-2 mt-2">
-              <div v-if="team.victories_count > 0" class="rounded p-2 bg-primary-lighter flex justify-center items-center">🏆 {{ team.victories_count }}</div>
-              <div v-if="team.shootouts_count > 0" class="rounded p-2 bg-primary-lighter flex justify-center items-center">🎯 {{ team.shootouts_count }}</div>
+              <div v-if="team.victories_count > 0" class="rounded p-2 bg-white shadow flex justify-center items-center">🏆 {{ team.victories_count }}</div>
+              <div v-if="team.shootouts_count > 0" class="rounded p-2 bg-white shadow flex justify-center items-center">🎯 {{ team.shootouts_count }}</div>
             </div>
         </div>
     </div>
