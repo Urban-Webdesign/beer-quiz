@@ -13,10 +13,7 @@
                 Pioneer Beer kvíz
             </h1>
             <p class="text-lg px-2 lg:text-xl text-center">
-                Soutěž, která prověří, jak se vyznáš v
-                <span class="font-black">pivu</span>, ve
-                <span class="font-black">chmelu</span> a v
-                <span class="font-black">historii Žatce</span>!
+              Předveď své znalosti v pub kvízu nejenom o <span class="font-black">chmelu</span> a <span class="font-black">pivu</span>!
             </p>
 
             <div

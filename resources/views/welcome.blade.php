@@ -7,22 +7,22 @@
 
     <title>Pioneer Beer Quiz</title>
 
-    <meta name="description" content="Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!">
+    <meta name="description" content="Předveď své znalosti v pub kvízu nejenom o chmelu a pivu!">
 
     <!-- Open Graph (Facebook, WhatsApp, LinkedIn...) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://beer-quiz.filipurban.cz/">
-    <meta property="og:title" content="Pioneer Beer Kvíz Žatec">
-    <meta property="og:description" content="Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!">
+    <meta property="og:title" content="Pioneer Beer kvíz Žatec">
+    <meta property="og:description" content="Předveď své znalosti v pub kvízu nejenom o chmelu a pivu!">
     <meta property="og:image" content="{{ asset('/images/og_image.jpg') }}">
-    <meta property="og:site_name" content="Pioneer Beer Kvíz Žatec">
+    <meta property="og:site_name" content="Pioneer Beer kvíz">
     <meta property="og:locale" content="cs_CZ">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://beer-quiz.filipurban.cz/">
-    <meta name="twitter:title" content="Pioneer Beer Kvíz Žatec">
-    <meta name="twitter:description" content="Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!">
+    <meta name="twitter:title" content="Pioneer Beer kvíz Žatec">
+    <meta name="twitter:description" content="Předveď své znalosti v pub kvízu nejenom o chmelu a pivu!">
     <meta name="twitter:image" content="{{ asset('/images/og_image.jpg') }}">
 
     <!-- Schema.org (pro lepší zobrazení ve vyhledávačích) -->
@@ -30,8 +30,8 @@
         {
           "@context": "https://schema.org",
           "@type": "Event",
-          "name": "Pioneer Beer Kvíz Žatec",
-          "description": "Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!",
+          "name": "Pioneer Beer kvíz Žatec",
+          "description": "Předveď své znalosti v pub kvízu nejenom o chmelu a pivu!",
           "image": "{{ asset('/images/og_image.jpg') }}",
           "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
           "eventStatus": "https://schema.org/EventScheduled",
