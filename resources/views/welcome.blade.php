@@ -7,6 +7,58 @@
 
     <title>Pioneer Beer Quiz</title>
 
+    <meta name="description" content="Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!">
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn...) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beer-quiz.filipurban.cz/">
+    <meta property="og:title" content="Pioneer Beer Kvíz Žatec">
+    <meta property="og:description" content="Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!">
+    <meta property="og:image" content="{{ asset('/images/og_image.jpg') }}">
+    <meta property="og:site_name" content="Pioneer Beer Kvíz Žatec">
+    <meta property="og:locale" content="cs_CZ">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://beer-quiz.filipurban.cz/">
+    <meta name="twitter:title" content="Pioneer Beer Kvíz Žatec">
+    <meta name="twitter:description" content="Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!">
+    <meta name="twitter:image" content="{{ asset('/images/og_image.jpg') }}">
+
+    <!-- Schema.org (pro lepší zobrazení ve vyhledávačích) -->
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Event",
+          "name": "Pioneer Beer Kvíz Žatec",
+          "description": "Soutěž, která prověří, jak se vyznáš v pivu, ve chmelu a v historii Žatce!",
+          "image": "{{ asset('/images/og_image.jpg') }}",
+          "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+          "eventStatus": "https://schema.org/EventScheduled",
+          "location": {
+            "@type": "Place",
+            "name": "Pioneer Beer",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "nám. Prokopa Velkého 303",
+              "addressLocality": "Žatec",
+              "postalCode": "43801",
+              "addressCountry": "CZ"
+            }
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "150",
+            "priceCurrency": "CZK",
+            "url": "https://beer-quiz.filipurban.cz/",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+    </script>
+
+    <!-- Canonical URL (pro SEO) -->
+    <link rel="canonical" href="https://beer-quiz.filipurban.cz/">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
