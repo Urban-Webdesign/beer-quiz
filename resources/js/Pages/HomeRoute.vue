@@ -35,7 +35,7 @@
             <h3 class="text-xl font-black">Nejnovější výsledky</h3>
             <p class="text-center">Výsledková tabule ti automaticky zobrazí nejnovější výsledky.</p>
         </div>
-        <a href="/vysledky" target="_top" class="min-w-[150px] max-w-full w-auto font-medium text-center bg-green-600 text-white px-5 py-1.5 rounded-full hover:bg-green-700 disabled:bg-green-400">
+        <a href="/kviz" target="_top" class="min-w-[150px] max-w-full w-auto font-medium text-center bg-green-600 text-white px-5 py-1.5 rounded-full hover:bg-green-700 disabled:bg-green-400">
           Výsledky
         </a>
       </div>
