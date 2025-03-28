@@ -9,9 +9,7 @@ const results = ref([]);
 const previousEventId = ref(null);
 const nextEventId = ref(null);
 
-// Access the current route and router
 const route = useRoute();
-const router = useRouter();
 
 const fetchEventResults = async () => {
   try {
@@ -59,8 +57,8 @@ watch(
 <template>
   <div>
 
-    <h2 class="text-3xl font-black text-center" v-if="event">{{ event.name }}</h2>
-    <span v-if="event" class="font-semibold text-xl block text-center mb-3">{{ formatCzechDate(event.date) }}</span>
+    <span v-if="event" class="font-semibold text-xl block text-center">{{ formatCzechDate(event.date) }}</span>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3" v-if="event">{{ event.name }}</h2>
 
     <div class="grid grid-cols-2 lg:grid-cols-[1fr,4fr,1fr] lg:items-center gap-4">
       <router-link

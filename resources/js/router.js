@@ -22,6 +22,10 @@ const routes = [
         component: () => import("./Pages/TeamsRoute.vue"),
     },
     {
+        path: "/tymy/:id",
+        component: () => import("./Pages/TeamRoute.vue"),
+    },
+    {
         path: "/registrace-:id",
         component: () => import("./Pages/RegistrationRoute.vue"),
     },

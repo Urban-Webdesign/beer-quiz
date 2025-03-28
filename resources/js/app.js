@@ -1,4 +1,5 @@
 import "./bootstrap";
+import 'flowbite';
 import router from "./router";
 import { createApp } from "vue";
 

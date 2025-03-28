@@ -59,7 +59,7 @@ const eventsByYear = computed(() => {
 
 <template>
   <div>
-    <h2 class="text-2xl font-bold mb-2">Kalendář akcí</h2>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-black mb-2">Kalendář akcí</h2>
 
     <div v-if="eventsByYear.length" class="flex flex-col gap-6">
       <div v-for="group in eventsByYear" :key="group.year" class="flex flex-col gap-3">
@@ -107,7 +107,7 @@ const eventsByYear = computed(() => {
               <a v-if="isRegistrationOpen(event)" :href="`/registrace-${event.id}`" class="w-auto rounded-full font-medium tracking-wider shadow-md text-white px-4 py-2 bg-green-600 hover:bg-green-700">
                 Přihlásit tým!
               </a>
-              <a v-if="event.teams_count > 0" :href="`/kviz-${event.id}`" class="w-auto rounded-full font-medium tracking-wider shadow-md text-white px-4 py-2 bg-blue-600 hover:bg-blue-700">
+              <a v-if="event.teams_count > 0" :href="`/kviz-${event.id}`" class="w-auto rounded-full font-medium tracking-wider shadow-md text-white px-4 py-2 bg-gray-600 hover:bg-gray-700">
                 Výsledková tabule
               </a>
             </div>
