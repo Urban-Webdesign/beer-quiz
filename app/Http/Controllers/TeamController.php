@@ -106,6 +106,7 @@ class TeamController extends Controller
 			'participations' => $participations->map(function($participation) {
 				return [
 					'event' => [
+						'id' => $participation->event_id,
 						'date' => $participation->event_date,
 						'name' => $participation->event_name
 					],

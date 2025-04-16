@@ -92,9 +92,22 @@ const statusMessage = computed(() => {
   return "Registruj se!";
 });
 
-// Methods
+// Update phone validation function
+const validatePhone = (phone) => {
+  // Povoluje formáty: +420 606 657 706, +420606657706, 606657706, 606 657 706
+  const cleaned = phone.replace(/\s+/g, '');
+  return /^(\+[1-9][0-9][0-9])?[1-9][0-9]{8}$/.test(cleaned);
+};
+
+// Modify submitRegistration to include validation
 const submitRegistration = async () => {
   if (!event.value) return;
+
+  // Validate phone number before submission
+  if (!validatePhone(phone.value)) {
+    error.value = "Zadejte platné české telefonní číslo (9 nebo 12 číslic)";
+    return;
+  }
 
   loading.value = true;
   message.value = "";
@@ -116,7 +129,7 @@ const submitRegistration = async () => {
   } catch (err) {
     error.value = err.response?.data.message ||
         err.message ||
-        "Chyba při registraci.";
+        "Chyba při registraci. Zkontrolujte zadané údaje.";
   } finally {
     loading.value = false;
   }
@@ -144,7 +157,7 @@ const submitRegistration = async () => {
             class="space-y-4"
         >
           <div>
-            <label for="name" class="block mb-2 font-medium">Jméno týmu</label>
+            <label for="name" class="block mb-2 font-medium">Jméno týmu *</label>
             <input
                 id="name"
                 v-model="teamName"
@@ -152,10 +165,11 @@ const submitRegistration = async () => {
                 class="w-full p-2 border rounded"
                 required
             />
+            <p class="text-sm text-gray-500 mt-1">Maximálně 50 znaků</p>
           </div>
 
           <div>
-            <label for="leader" class="block mb-2 font-medium">Kapitán</label>
+            <label for="leader" class="block mb-2 font-medium">Jméno kapitána *</label>
             <input
                 id="leader"
                 v-model="captainName"
@@ -163,17 +177,20 @@ const submitRegistration = async () => {
                 class="w-full p-2 border rounded"
                 required
             />
+            <p class="text-sm text-gray-500 mt-1">Maximálně 50 znaků</p>
           </div>
 
           <div>
-            <label for="phone" class="block mb-2 font-medium">Telefon</label>
+            <label for="phone" class="block mb-2 font-medium">Telefon *</label>
             <input
                 id="phone"
                 v-model="phone"
                 type="tel"
+                @input="formatPhoneInput"
                 class="w-full p-2 border rounded"
                 required
             />
+            <p class="text-sm text-gray-500 mt-1">Zadejte platné telefonní číslo</p>
           </div>
 
           <div class="text-center">
@@ -209,6 +226,12 @@ const submitRegistration = async () => {
         </div>
 
         <div v-if="registeredTeams.length > 0" class="space-y-2">
+          <div
+              class="px-4 text-sm text-gray-600 rounded flex flex-col sm:flex-row items-start sm:justify-between gap-1 sm:gap-3 sm:items-center"
+          >
+            <div>Název týmu</div>
+            <div>Kapitán</div>
+          </div>
           <div
               v-for="team in registeredTeams"
               :key="team.id"

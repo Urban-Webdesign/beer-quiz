@@ -12,7 +12,7 @@ class ResultController extends Controller
     {
 
         if ($id === null) {
-            $event = Event::has('results')->orderBy('id', 'desc')->first();
+            $event = Event::has('results')->orderBy('date', 'desc')->first();
         } else {
             $event = Event::where('id', $id)->first();
         }
@@ -31,8 +31,8 @@ class ResultController extends Controller
             ->get();
 
         // Get previous and next event IDs
-        $previousEvent = Event::has('results')->where('id', '<', $event->id)->orderBy('id', 'desc')->first();
-        $nextEvent = Event::has('results')->where('id', '>', $event->id)->orderBy('id', 'asc')->first();
+        $previousEvent = Event::has('results')->where('date', '<', $event->date)->orderBy('date', 'desc')->first();
+        $nextEvent = Event::has('results')->where('date', '>', $event->date)->orderBy('date', 'asc')->first();
 
         return response()->json([
             'event' => $event,

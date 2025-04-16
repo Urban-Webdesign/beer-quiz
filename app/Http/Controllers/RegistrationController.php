@@ -13,14 +13,26 @@ class RegistrationController extends Controller
 		$event = Event::findOrFail($id);
 
 		$validated = $request->validate([
-			'team_name' => 'required|string|max:100',
-			'captain_name' => 'required|string|max:100',
-			'phone' => 'required|string|max:25',
+			'team_name' => 'required|string|max:50',
+			'captain_name' => 'required|string|max:50',
+			'phone' => [
+				'required',
+				'string',
+				'max:25',
+				function ($attribute, $value, $fail) {
+					$cleaned = preg_replace('/\s+/', '', $value);
+					if (!preg_match('/^(\+[1-9][0-9][0-9])?[1-9][0-9]{8}$/', $cleaned)) {
+						$fail('Zadejte platné telefonní číslo');
+					}
+				},
+			],
+		], [
+			'team_name.required' => 'Název týmu je povinný.',
+			'team_name.max' => 'Název týmu může mít maximálně 50 znaků.',
+			'captain_name.required' => 'Jméno kapitána je povinné.',
+			'captain_name.max' => 'Jméno kapitána může mít maximálně 50 znaků.',
+			'phone.required' => 'Telefonní číslo je povinné.',
 		]);
-
-		if ($event->status !== 'register') {
-			return response()->json(['message' => 'Registrace není povolena.'], 403);
-		}
 
 		// Check if team name is already taken for this event
 		$existingTeam = Registration::where('event_id', $event->id)
@@ -35,7 +47,7 @@ class RegistrationController extends Controller
 			'event_id' => $event->id,
 			'name' => $validated['team_name'],
 			'leader' => $validated['captain_name'],
-			'phone' => $validated['phone'],
+			'phone' => preg_replace('/\s+/', '', $validated['phone']),
 		]);
 
 		return response()->json([

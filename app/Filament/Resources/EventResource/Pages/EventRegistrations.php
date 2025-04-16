@@ -65,9 +65,6 @@ class EventRegistrations extends Page implements HasTable
 						'name' => $record->name,
 						// Add any other fields you need
 					]);
-
-					// Optional: Refresh the table
-					$this->refreshTable();
 				})
 				->requiresConfirmation()
 				->modalHeading('Vytvořit tým')
@@ -88,6 +85,6 @@ class EventRegistrations extends Page implements HasTable
 	// Add this method to your table configuration
 	protected function getTableRecordClassesUsing(): ?\Closure
 	{
-		return fn (Registration $record) => $record->team()->exists() ? null : 'bg-red-50';
+		return fn (Registration $record) => $record->team_exists ? null : 'bg-red-50';
 	}
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Registration extends Model
 {
@@ -11,5 +12,15 @@ class Registration extends Model
 	public function event()
 	{
 		return $this->belongsTo(Event::class, 'event_id');
+	}
+
+	public function team(): HasOne
+	{
+		return $this->hasOne(Team::class, 'name', 'name');
+	}
+
+	public function getTeamExistsAttribute(): bool
+	{
+		return $this->team()->exists();
 	}
 }

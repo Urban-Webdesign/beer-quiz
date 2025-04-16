@@ -53,10 +53,25 @@ class EventController extends Controller
 	{
 		$events = Event::where('status', '!=', 'finished')->orderBy('date')->get();
 
-		if (! $events) {
+		if (!$events) {
 			return response()->json(['message' => 'Events not found'], 404);
 		}
 
 		return response()->json($events);
+	}
+
+	public function next()
+	{
+		$event = Event::where('status', '!=', 'finished')
+			->where('date', '>=', now()) // Volitelné: pouze budoucí události
+			->withCount('registrations as registrations_count')
+			->orderBy('date')
+			->first();
+
+		if (! $event) {
+			return response()->json(['message' => 'No upcoming event found'], 404);
+		}
+
+		return response()->json($event);
 	}
 }

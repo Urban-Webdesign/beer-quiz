@@ -32,7 +32,7 @@ class EventResource extends Resource
             ->schema([
                 TextInput::make('name')->name('Název')->columnSpan(2)->required(),
 	            TextInput::make('capacity')->label('Kapacita')->numeric()->minValue(1)->default(8)->required(),
-                DatePicker::make('date')->name('Datum konání')->required(),
+                DateTimePicker::make('date')->name('Datum konání')->required(),
 	            DateTimePicker::make('register_from')->name('Začátek registrace'),
 
                 Repeater::make('results')
@@ -70,7 +70,7 @@ class EventResource extends Resource
 	                ->hidden(fn ($record) => !$record || $record->date > now()),
 
 	            Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false)
-		            ->hidden(fn ($record) => !$record || $record->status !== 'finished'),
+		            ->hidden(fn ($record) => !$record),
 
             ])->columns(3);
     }

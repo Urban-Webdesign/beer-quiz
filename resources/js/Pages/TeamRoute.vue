@@ -52,7 +52,9 @@ fetchTeam();
           {{ formatCzechDate(participation.event.date) }} {{ useDateFormat(participation.event.date, 'YYYY') }}
         </div>
         <div>
-          {{ participation.event.name }}
+          <router-link :to="`/kviz-${participation.event.id}`" class="font-semibold hover:underline">
+            {{ participation.event.name }}
+          </router-link>
         </div>
         <div class="font-bold">
           {{ participation.position }}. ({{ participation.score }} bodů)
