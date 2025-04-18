@@ -1,8 +1,7 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import axios from "axios";
-import { useDateFormat } from '@vueuse/core';
-import { useRoute } from "vue-router";
+import {ref, computed, onMounted} from "vue";
+import {useDateFormat} from '@vueuse/core';
+import {useRoute} from "vue-router";
 
 // Reactive state
 const event = ref(null);
@@ -16,12 +15,37 @@ const error = ref("");
 
 const route = useRoute();
 
+// Helper function for API requests
+const apiRequest = async (url, method = 'GET', body = null) => {
+  const options = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  };
+
+  if (body) options.body = JSON.stringify(body);
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (err) {
+    console.error(`API request failed: ${err.message}`);
+    throw err;
+  }
+};
+
 // Data fetching
 const fetchEventData = async () => {
   try {
     const eventId = route.params.id || "";
-    const response = await axios.get(`/api/event-results/${eventId}`);
-    event.value = response.data.event;
+    const data = await apiRequest(`/api/event-results/${eventId}`);
+    event.value = data.event;
 
     if (event.value) {
       await fetchRegisteredTeams();
@@ -34,8 +58,8 @@ const fetchEventData = async () => {
 
 const fetchRegisteredTeams = async () => {
   try {
-    const response = await axios.get(`/api/events/${event.value.id}/registrations`);
-    registeredTeams.value = response.data || [];
+    const data = await apiRequest(`/api/events/${event.value.id}/registrations`);
+    registeredTeams.value = data || [];
   } catch (err) {
     console.error("Nepodařilo se načíst přihlášené týmy:", err);
   }
@@ -45,13 +69,12 @@ onMounted(fetchEventData);
 
 // Computed properties
 const formattedDate = computed(() => {
-  return event.value ? useDateFormat(event.value.date, 'D. MMMM YYYY', { locales: 'cs-CZ' }) : '';
+  return event.value ? useDateFormat(event.value.date, 'D. MMMM YYYY', {locales: 'cs-CZ'}).value : '';
 });
 
 const formattedRegistrationStart = computed(() => {
   if (!event.value?.register_from) return '';
-  const formatted = useDateFormat(event.value.register_from, 'D. M. YYYY v HH:mm', { locales: 'cs-CZ' });
-  return formatted.value;
+  return useDateFormat(event.value.register_from, 'D. M. YYYY v HH:mm', {locales: 'cs-CZ'}).value;
 });
 
 const isFutureEvent = computed(() => {
@@ -92,18 +115,16 @@ const statusMessage = computed(() => {
   return "Registruj se!";
 });
 
-// Update phone validation function
+// Phone validation
 const validatePhone = (phone) => {
-  // Povoluje formáty: +420 606 657 706, +420606657706, 606657706, 606 657 706
   const cleaned = phone.replace(/\s+/g, '');
   return /^(\+[1-9][0-9][0-9])?[1-9][0-9]{8}$/.test(cleaned);
 };
 
-// Modify submitRegistration to include validation
+// Registration submission
 const submitRegistration = async () => {
   if (!event.value) return;
 
-  // Validate phone number before submission
   if (!validatePhone(phone.value)) {
     error.value = "Zadejte platné české telefonní číslo (9 nebo 12 číslic)";
     return;
@@ -114,22 +135,24 @@ const submitRegistration = async () => {
   error.value = "";
 
   try {
-    const response = await axios.post(`/api/events/${event.value.id}/register`, {
-      team_name: teamName.value,
-      captain_name: captainName.value,
-      phone: phone.value,
-    });
+    const data = await apiRequest(
+        `/api/events/${event.value.id}/register`,
+        'POST',
+        {
+          team_name: teamName.value,
+          captain_name: captainName.value,
+          phone: phone.value,
+        }
+    );
 
-    message.value = response.data.message || "Registrace byla úspěšně odeslána!";
+    message.value = data.message || "Registrace byla úspěšně odeslána!";
     teamName.value = "";
     captainName.value = "";
     phone.value = "";
 
     await fetchRegisteredTeams();
   } catch (err) {
-    error.value = err.response?.data.message ||
-        err.message ||
-        "Chyba při registraci. Zkontrolujte zadané údaje.";
+    error.value = err.message || "Chyba při registraci. Zkontrolujte zadané údaje.";
   } finally {
     loading.value = false;
   }
@@ -162,6 +185,7 @@ const submitRegistration = async () => {
                 id="name"
                 v-model="teamName"
                 type="text"
+                maxlength="50"
                 class="w-full p-2 border rounded"
                 required
             />
@@ -174,6 +198,7 @@ const submitRegistration = async () => {
                 id="leader"
                 v-model="captainName"
                 type="text"
+                maxlength="50"
                 class="w-full p-2 border rounded"
                 required
             />
@@ -186,7 +211,6 @@ const submitRegistration = async () => {
                 id="phone"
                 v-model="phone"
                 type="tel"
-                @input="formatPhoneInput"
                 class="w-full p-2 border rounded"
                 required
             />
@@ -227,8 +251,7 @@ const submitRegistration = async () => {
 
         <div v-if="registeredTeams.length > 0" class="space-y-2">
           <div
-              class="px-4 text-sm text-gray-600 rounded flex flex-col sm:flex-row items-start sm:justify-between gap-1 sm:gap-3 sm:items-center"
-          >
+              class="px-4 text-sm text-gray-600 rounded flex flex-col sm:flex-row items-start sm:justify-between gap-1 sm:gap-3 sm:items-center">
             <div>Název týmu</div>
             <div>Kapitán</div>
           </div>
