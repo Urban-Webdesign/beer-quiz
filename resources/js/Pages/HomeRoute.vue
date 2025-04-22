@@ -36,6 +36,7 @@ onMounted(fetchNextEvent);
 </script>
 
 <template>
+  <div class="max-w-[450px] md:max-w-none mx-auto">
   <header class="mb-4 sm:mb-8 md:mb-12 ">
     <div class="flex flex-col items-center relative">
       <h1 class="font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-8xl mb-3 text-gray-900">
@@ -48,8 +49,8 @@ onMounted(fetchNextEvent);
   </header>
 
   <!-- Next Event Banner -->
-  <h2 class="text-lg md:text-xl font-bold mb-3">Nejbližší kolo kvízu</h2>
-  <div class="min-h-[140px] mb-4 md:mb-6 lg:mb-8 rounded shadow-md bg-gray-50 px-3 py-5 sm:p-5 md:p-4 text-lg">
+  <h2 class="text-lg md:text-xl font-bold text-center md:text-left pb-4 md:pb-0 md:px-4 md:py-1.5 md:bg-gray-50 md:inline-block md:rounded-t">Nejbližší kolo kvízu</h2>
+  <div class="min-h-[140px] mb-8 lg:mb-12 rounded md:rounded-ss-none shadow-md bg-gray-50 px-3 py-5 sm:p-5 md:p-4 text-lg">
     <div v-if="!loading && nextEvent" class="grid grid-cols-1 md:grid-cols-[120px,3fr] items-center gap-4 sm:gap-6 md:gap-8">
       <div class="font-semibold text-base bg-white rounded shadow p-3 gap-1 flex md:flex-col justify-center md:items-center">
         <span class="md:text-sm">{{ useDateFormat(nextEvent.date, 'dddd', { locales: 'cs-CZ' }) }}</span>
@@ -57,9 +58,9 @@ onMounted(fetchNextEvent);
         <span>{{ formatCzechMonth(nextEvent.date) }}</span>
       </div>
 
-      <div class="flex flex-col text-base gap-3 sm:gap-5 lg:flex-row lg:justify-between items-start lg:items-center">
-        <div class="flex flex-col sm:flex-row gap-1">
-          <div>
+      <div class="flex flex-col text-base gap-3 sm:gap-5 md:flex-row md:justify-between items-center ">
+
+        <div class="flex flex-col items-center md:items-start gap-1">
             <h3 class="font-bold text-xl sm:text-2xl md:text-3xl mb-3">
               {{ nextEvent.name }}
             </h3>
@@ -69,25 +70,16 @@ onMounted(fetchNextEvent);
               <span class="font-bold">{{ nextEvent.capacity }} týmů</span>
               <span v-if="isRegistrationOpen(nextEvent)" class="ml-1">(volná místa: {{ nextEvent.capacity - nextEvent.registrations_count }})</span>
             </div>
-          </div>
         </div>
 
-        <template v-if="isRegistrationOpen(nextEvent)">
-          <a
-              v-if="nextEvent.capacity > nextEvent.registrations_count"
-              :href="`/registrace-${nextEvent.id}`"
-              class="w-auto rounded-full font-medium tracking-wider shadow-md text-white px-4 py-2 bg-green-600 hover:bg-green-700"
-          >
-            Přihlásit tým!
-          </a>
-          <span v-else class="p-2 bg-gray-100 rounded">
-          Na tenhle večer už jsou bohužel všechny stoly obsazeny.
-        </span>
-        </template>
+        <a :href="`/registrace-${nextEvent.id}`" class="flex flex-row items-center gap-1.5 rounded-full font-medium tracking-wider shadow-md text-white px-4 py-2" :class="nextEvent.capacity > nextEvent.registrations_count ? 'bg-green-600 hover:bg-green-700' : ' bg-gray-600 hover:bg-gray-700'">
+          <span v-if="nextEvent.capacity > nextEvent.registrations_count">Přihlásit tým!</span>
+          <span v-else>Detail události</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+          </svg>
+        </a>
 
-        <div v-else class="h-full p-2 bg-gray-100 rounded">
-          Registrace bude spuštěna <strong class="font-bold">{{ nextEvent.register_from ? formatCzechDateTime(nextEvent.register_from) : 'později' }}</strong>.
-        </div>
       </div>
     </div>
 
@@ -112,30 +104,10 @@ onMounted(fetchNextEvent);
     <div v-if="error">{{ error }}</div>
   </div>
 
-  <h2 class="text-lg md:text-xl font-bold mb-3">Informace</h2>
-  <div class="mb-8 md:mb-12 lg:mb-16 rounded grid grid-cols-1 md:grid-cols-[120px,3fr] items-center gap-4 sm:gap-6 md:gap-8 shadow-md bg-gray-50 px-3 py-5 sm:p-5 md:p-4 text-lg">
-    <div class="font-semibold text-base  bg-white h-full rounded shadow p-3 gap-1 flex md:flex-col justify-center md:items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-9">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-      </svg>
-    </div>
-
-    <div class="flex flex-col text-base gap-3 sm:gap-5 lg:flex-row lg:justify-between items-start lg:items-center">
-      <div class="flex flex-col sm:flex-row gap-1">
-        <div>
-          <h3 class="font-bold text-xl sm:text-2xl md:text-3xl mb-3">
-             Doplnění historických výsledků!
-          </h3>
-          <p>U historicky prvních tří kol Pioneer Beer kvízu nám chybí kompletní výsledky. Pamatujete si, jak to dopadlo?<br>Napište mi prosím na adresu <a href="mailto:info@filipurban.cz" class="underline hover:no-underline font-bold">info@filipurban.cz</a>, ať to doplním. Díky! Filip</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Original Cards Section -->
-  <div class="mb-8 md:mb-12 lg:mb-16 grid sm:grid-cols-2 md:grid-cols-3 gap-7 sm:gap-4 md:gap-6">
-    <div class="rounded shadow-sm bg-gray-50 p-3 md:p-5 flex flex-col gap-2 items-center justify-between">
-      <div class="text-center flex flex-col items-center">
+  <div class="mb-8 md:mb-12 lg:mb-16 grid md:grid-cols-3 gap-10 md:gap-6">
+    <div class="rounded shadow-sm bg-gray-50 p-5 flex flex-col gap-5 items-center justify-between">
+      <div class="text-center flex flex-col items-center gap-3">
         <div class="aspect-[2/1] w-full">
           <img :src="kalendar" alt="Pioneer Beer kvíz - kalendář" class="mb-3 rounded shadow-sm">
         </div>
@@ -146,8 +118,8 @@ onMounted(fetchNextEvent);
         Kalendář
       </a>
     </div>
-    <div class="rounded shadow-sm bg-gray-50 p-3 md:p-5 flex flex-col gap-2 items-center justify-between">
-      <div class="text-center flex flex-col items-center">
+    <div class="rounded shadow-sm bg-gray-50 p-5 flex flex-col gap-5 items-center justify-between">
+      <div class="text-center flex flex-col items-center gap-3">
         <div class="aspect-[2/1] w-full">
           <img :src="vysledky" alt="Pioneer Beer kvíz - výsledky" class="mb-3 rounded shadow-sm">
         </div>
@@ -158,8 +130,8 @@ onMounted(fetchNextEvent);
         Výsledky
       </a>
     </div>
-    <div class="rounded shadow-sm bg-gray-50 p-3 md:p-5 flex flex-col gap-2 items-center justify-between">
-      <div class="text-center flex flex-col items-center">
+    <div class="rounded shadow-sm bg-gray-50 p-5 flex flex-col gap-5 items-center justify-between">
+      <div class="text-center flex flex-col items-center gap-3">
         <div class="aspect-[2/1] w-full">
           <img :src="tymy" alt="Pioneer Beer kvíz - týmy" class="mb-3 rounded shadow-sm">
         </div>
@@ -173,7 +145,7 @@ onMounted(fetchNextEvent);
   </div>
 
   <!-- Quiz Information Section -->
-  <section class="bg-white rounded-lg shadow-sm p-4 md:p-6">
+  <section class="bg-white rounded-lg shadow-sm p-5">
     <h2 class="text-2xl md:text-3xl text-center font-bold mb-6 text-gray-800">O Pioneer Beer Quizu</h2>
 
     <div class="grid md:grid-cols-2 gap-6">
@@ -235,4 +207,5 @@ onMounted(fetchNextEvent);
       </div>
     </div>
   </section>
+  </div>
 </template>
