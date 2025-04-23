@@ -263,6 +263,8 @@ const submitRegistration = async () => {
             <div class="font-medium">{{ team.name }}</div>
             <div class="text-gray-600 text-sm">{{ team.leader }}</div>
           </div>
+
+          <div class="mt-4 text-sm text-gray-600 bg-gray-100 rounded p-3">Případné odhlášky prosím hlašte pořadateli na telefonní číslo: <a href="tel:+420724431422" class="font-bold underline hover:no-underline">+420 724 431 422</a></div>
         </div>
 
         <div v-else class="p-3 bg-white rounded text-center text-gray-700">
