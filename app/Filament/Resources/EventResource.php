@@ -8,8 +8,10 @@ use App\Models\Registration;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -38,6 +40,7 @@ class EventResource extends Resource
                 Repeater::make('results')
                     ->label('Výsledky')
                     ->relationship('results')
+	                ->collapsible()
                     ->schema([
                         TextInput::make('order')
                             ->label('Pořadí')
@@ -67,10 +70,20 @@ class EventResource extends Resource
                     ->columns(3)
                     ->orderColumn('order')
 	                ->nullable()
-	                ->hidden(fn ($record) => !$record || $record->date > now()),
+	                ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
 
 	            Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false)
 		            ->hidden(fn ($record) => !$record),
+
+	            SpatieMediaLibraryFileUpload::make('gallery')
+		            ->collection('gallery')
+		            ->label('Fotogalerie')
+		            ->multiple()
+		            ->image()
+		            ->reorderable()
+		            ->downloadable()
+		            ->previewable(true)
+		            ->columnSpanFull(),
 
             ])->columns(3);
     }

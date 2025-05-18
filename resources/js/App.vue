@@ -33,6 +33,7 @@
           <li><a href="/kalendar" class="block py-2 px-3 text-gray-900 hover:text-[#dba221]">Kalendář</a></li>
           <li><a href="/kviz" class="block py-2 px-3 text-gray-900 hover:text-[#dba221]">Výsledky</a></li>
           <li><a href="/tymy" class="block py-2 px-3 text-gray-900 hover:text-[#dba221]">Týmy</a></li>
+          <li><a href="/galerie" class="block py-2 px-3 text-gray-900 hover:text-[#dba221]">Galerie</a></li>
         </ul>
       </div>
     </div>
