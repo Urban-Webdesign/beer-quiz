@@ -83,13 +83,12 @@ class EventController extends Controller
 				'name' => $event->name,
 				'date' => date('j. n. Y', strtotime($event->date)),
 				'gallery' => $event->getMedia('gallery')->map(function ($media) {
-					$path = public_path(str_replace(url('/'), '', $media->getUrl()));
-					$dimensions = @getimagesize($path);
+					[$width, $height] = getimagesize($media->getPath());
 
 					return [
 						'url' => $media->getUrl(),
-						'width' => $dimensions[0] ?? null,
-						'height' => $dimensions[1] ?? null,
+						'width' => $width ?? null,
+						'height' => $height ?? null,
 					];
 				}),
 			];
