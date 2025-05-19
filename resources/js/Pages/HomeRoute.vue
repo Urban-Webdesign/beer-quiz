@@ -19,7 +19,7 @@ const fetchNextEvent = async () => {
     nextEvent.value = await response.json();
   } catch (err) {
     console.error("Failed to fetch next event:", err);
-    error.value = "Další kolo soutěže bude včas zveřejněno";
+    error.value = "Další kolo soutěže bude včas zveřejněno.";
   } finally {
     loading.value = false;
   }
@@ -50,7 +50,7 @@ onMounted(fetchNextEvent);
 
   <!-- Next Event Banner -->
   <h2 class="text-lg md:text-xl font-bold text-center md:text-left pb-4 md:pb-0 md:px-4 md:py-1.5 md:bg-gray-50 md:inline-block md:rounded-t">Nejbližší kolo kvízu</h2>
-  <div class="min-h-[140px] mb-8 lg:mb-12 rounded md:rounded-ss-none shadow-md bg-gray-50 px-3 py-5 sm:p-5 md:p-4 text-lg">
+  <div class="mb-8 lg:mb-12 rounded md:rounded-ss-none shadow-md bg-gray-50 px-3 py-5 sm:p-5 md:p-4 text-lg">
     <div v-if="!loading && nextEvent" class="grid grid-cols-1 md:grid-cols-[120px,3fr] items-center gap-4 sm:gap-6 md:gap-8">
       <div class="font-semibold text-base bg-white rounded shadow p-3 gap-1 flex md:flex-col justify-center md:items-center">
         <span class="md:text-sm">{{ useDateFormat(nextEvent.date, 'dddd', { locales: 'cs-CZ' }) }}</span>
@@ -101,7 +101,8 @@ onMounted(fetchNextEvent);
         <div class="w-40 h-10 bg-gray-200 rounded-full"></div>
       </div>
     </div>
-    <div v-if="error">{{ error }}</div>
+
+    <div v-if="error" class="w-full font-medium py-3 flex justify-center items-center">{{ error }}</div>
   </div>
 
   <!-- Original Cards Section -->
@@ -195,7 +196,7 @@ onMounted(fetchNextEvent);
           <li class="flex items-start">
             <span class="mr-4">📅</span>
             <span>
-                <strong>Termíny:</strong> Budou včas zveřejněny zde na webu. Kvízy se konají ve čtvrtek od 19:30 zpravidla 7x do roka.<br>
+                <strong>Termíny:</strong> Budou včas zveřejněny zde na webu. Kvízy se konají ve čtvrtek od 19:30 zpravidla 8x do roka (od října do května).<br>
                 <span class="text-sm text-gray-600">Registrace se otevírá týdem předem v 18:00.</span>
             </span>
           </li>

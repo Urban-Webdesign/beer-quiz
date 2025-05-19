@@ -32,10 +32,27 @@ class EventResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->name('Název')->columnSpan(2)->required(),
-	            TextInput::make('capacity')->label('Kapacita')->numeric()->minValue(1)->default(8)->required(),
-                DateTimePicker::make('date')->name('Datum konání')->required(),
-	            DateTimePicker::make('register_from')->name('Začátek registrace'),
+                TextInput::make('name')
+	                ->name('Název')
+	                ->columnSpan(2)
+	                ->default('PBQ xx. kolo')
+	                ->required(),
+
+	            TextInput::make('capacity')
+		            ->label('Kapacita')
+		            ->numeric()
+		            ->minValue(1)
+		            ->default(9)
+		            ->required(),
+
+                DateTimePicker::make('date')
+	                ->name('Datum konání')
+	                ->default(now()->addDays(21)->hours(19)->minutes(30)->seconds(0))
+	                ->required(),
+
+	            DateTimePicker::make('register_from')
+		            ->name('Začátek registrace')
+	                ->default(now()->addDays(7)->hours(18)->minutes(0)->seconds(0)),
 
                 Repeater::make('results')
                     ->label('Výsledky')
@@ -73,7 +90,7 @@ class EventResource extends Resource
 	                ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
 
 	            Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false)
-		            ->hidden(fn ($record) => !$record),
+		            ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
 
 	            SpatieMediaLibraryFileUpload::make('gallery')
 		            ->collection('gallery')
@@ -82,8 +99,9 @@ class EventResource extends Resource
 		            ->image()
 		            ->reorderable()
 		            ->downloadable()
-		            ->previewable(true)
-		            ->columnSpanFull(),
+		            ->previewable()
+		            ->columnSpanFull()
+		            ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
 
             ])->columns(3);
     }
