@@ -155,17 +155,11 @@ onMounted(fetchNextEvent);
         <ul class="space-y-7">
           <li class="flex items-start">
             <span class="mr-4">ℹ️</span>
-            <div class="flex flex-col gap-2">
-              <span>Pravidelné pub kvízy v příjemném prostředí Pioneer Beer pivovaru v Žatci.</span>
-              <span>Pořádá Vladimír Valeš z Chmelařského muzea v Žatci.</span>
-            </div>
+            <span>Pravidelné pub kvízy v příjemném prostředí Pioneer Beer pivovaru v Žatci. Pořádá Vladimír Valeš z Chmelařského muzea v Žatci.</span>
           </li>
           <li class="flex items-start">
             <span class="mr-4">🧠</span>
-            <div class="flex flex-col gap-2">
-              <span>21 zajímavých otázek z různých oblastí (pivo, chmel, historie, kultura, zeměpis, příroda, sport, Žatec).</span>
-              <span>Správná odpověď se volí ze tří možností (A, B, C).</span>
-            </div>
+            <span>21 zajímavých otázek z různých oblastí (pivo, chmel, historie, kultura, zeměpis, příroda, sport, Žatec). Správná odpověď se volí ze tří možností (A, B, C).</span>
           </li>
           <li class="flex items-start">
             <span class="mr-4">👥</span>
@@ -196,8 +190,7 @@ onMounted(fetchNextEvent);
           <li class="flex items-start">
             <span class="mr-4">📅</span>
             <span>
-                <strong>Termíny:</strong> Budou včas zveřejněny zde na webu. Kvízy se konají ve čtvrtek od 19:30 zpravidla 8x do roka (od října do května).<br>
-                <span class="text-sm text-gray-600">Registrace se otevírá týdem předem v 18:00.</span>
+                <strong>Termíny:</strong> Budou včas zveřejněny zde na webu. Kvízy se konají ve čtvrtek od 19:30 zpravidla 8x do roka (od října do května). Registrace se otevírá týden předem v 18:00.
             </span>
           </li>
           <li class="flex items-start">
