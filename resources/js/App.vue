@@ -64,7 +64,8 @@
     </span>
 
     <span class="text-center md:text-right">
-      Chyby hlaště na adresu <a class="underline block font-semibold hover:no-underline" href="mailto:info@filipurban.cz">info@filipurban.cz</a>
+        Našli jste chybu?<br>
+        Nahlašte ji prosím na <a class="underline font-semibold hover:no-underline" href="mailto:info@filipurban.cz">info@filipurban.cz</a>
     </span>
   </footer>
 </template>
