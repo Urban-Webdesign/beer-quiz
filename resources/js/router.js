@@ -29,6 +29,10 @@ const routes = [
         path: "/registrace-:id",
         component: () => import("./Pages/RegistrationRoute.vue"),
     },
+    {
+        path: "/galerie",
+        component: () => import("./Pages/GalleryRoute.vue"),
+    },
 ];
 
 export default createRouter({

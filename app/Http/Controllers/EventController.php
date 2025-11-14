@@ -74,4 +74,39 @@ class EventController extends Controller
 
 		return response()->json($event);
 	}
+
+    public function gallery()
+    {
+        $events = Event::with('media')
+            ->orderBy('date', 'desc')
+            ->get()
+            ->map(function ($event) {
+                return [
+                    'id' => $event->id,
+                    'name' => $event->name,
+                    'date' => date('j. n. Y', strtotime($event->date)),
+                    'gallery' => $event->getMedia('gallery')
+                        ->map(function ($media) {
+                            try {
+                                [$width, $height] = @getimagesize($media->getPath());
+                            } catch (\Throwable $e) {
+                                $width = null;
+                                $height = null;
+                            }
+
+                            return [
+                                'url'    => $media->getUrl(),        // or getUrl('info') if you want the conversion
+                                'width'  => $width,
+                                'height' => $height,
+                            ];
+                        })
+                        ->values()     // reindex collection -> nice JS array
+                        ->toArray(),
+                ];
+            })
+            ->values();                // same here – get plain 0-based array
+
+        return response()->json($events);
+    }
+
 }

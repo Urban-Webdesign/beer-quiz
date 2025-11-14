@@ -7,6 +7,7 @@ use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
 // GET
+Route::get('/events-with-gallery', [EventController::class, 'gallery']);
 Route::get('/events', [EventController::class, 'index']); // Pro získání všech kvízů
 Route::get('/upcoming-events', [EventController::class, 'upcoming']);
 Route::get('/events/next', [EventController::class, 'next']);

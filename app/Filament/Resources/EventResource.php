@@ -8,8 +8,10 @@ use App\Models\Registration;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -30,14 +32,32 @@ class EventResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->name('Název')->columnSpan(2)->required(),
-	            TextInput::make('capacity')->label('Kapacita')->numeric()->minValue(1)->default(8)->required(),
-                DateTimePicker::make('date')->name('Datum konání')->required(),
-	            DateTimePicker::make('register_from')->name('Začátek registrace'),
+                TextInput::make('name')
+	                ->name('Název')
+	                ->columnSpan(2)
+	                ->default('PBQ xx. kolo')
+	                ->required(),
+
+	            TextInput::make('capacity')
+		            ->label('Kapacita')
+		            ->numeric()
+		            ->minValue(1)
+		            ->default(9)
+		            ->required(),
+
+                DateTimePicker::make('date')
+	                ->name('Datum konání')
+	                ->default(now()->addDays(21)->hours(19)->minutes(30)->seconds(0))
+	                ->required(),
+
+	            DateTimePicker::make('register_from')
+		            ->name('Začátek registrace')
+	                ->default(now()->addDays(7)->hours(18)->minutes(0)->seconds(0)),
 
                 Repeater::make('results')
                     ->label('Výsledky')
                     ->relationship('results')
+	                ->collapsible()
                     ->schema([
                         TextInput::make('order')
                             ->label('Pořadí')
@@ -67,10 +87,21 @@ class EventResource extends Resource
                     ->columns(3)
                     ->orderColumn('order')
 	                ->nullable()
-	                ->hidden(fn ($record) => !$record || $record->date > now()),
+	                ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
 
 	            Checkbox::make('shootout')->name('Rozstřelová otázka')->default(false)
-		            ->hidden(fn ($record) => !$record),
+		            ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
+
+	            SpatieMediaLibraryFileUpload::make('gallery')
+		            ->collection('gallery')
+		            ->label('Fotogalerie')
+		            ->multiple()
+		            ->image()
+		            ->reorderable()
+		            ->downloadable()
+		            ->previewable()
+		            ->columnSpanFull()
+		            ->hidden(fn ($record) => !$record || $record->date > now()->yesterday()),
 
             ])->columns(3);
     }
