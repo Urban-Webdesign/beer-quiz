@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event; // Model pro tabulku 'events'
+use App\Models\Event;
 
 class EventController extends Controller
 {
-    // Získání všech záznamů z tabulky 'events'
     public function index()
     {
-        $events = Event::with('results.team') // Nahráváme výsledky pro práci s body
-            ->withCount('results as teams_count') // Počet týmů na základě výsledků
+        $events = Event::with('results.team')
+            ->withCount('results as teams_count')
 	        ->withCount('registrations as registrations_count')
             ->orderBy('date', 'desc')
             ->get()
             ->map(function ($event) {
-                // Vypočítáme součet bodů všech výsledků události
                 $totalPoints = $event->results->sum('score');
 
-                // Vypočítáme průměrné body (pokud nejsou žádné výsledky, vrátíme 0)
                 $averagePoints = $event->teams_count > 0
                     ? round($totalPoints / $event->teams_count, 2)
                     : 0;
 
-                // Najdeme vítězný tým (nejvyšší body)
                 $winningResult = $event->results->sortByDesc('score')->first();
                 $winningTeamName = $winningResult ? $winningResult->team->name : null;
 
-                // Přidáme průměrné body do každé události
                 $event->average_points = $averagePoints;
                 $event->winning_team = $winningTeamName;
 
@@ -37,7 +32,6 @@ class EventController extends Controller
         return response()->json($events);
     }
 
-    // Získání konkrétního záznamu podle ID
     public function show($id)
     {
         $event = Event::find($id);
@@ -77,34 +71,49 @@ class EventController extends Controller
 
     public function gallery()
     {
-        $events = Event::with('media')
+        $events = Event::query()
+            ->whereHas('media', function ($query) {
+                $query->where('collection_name', 'gallery');
+            })
+            ->with('media')
             ->orderBy('date', 'desc')
             ->get()
             ->map(function ($event) {
+                $gallery = $event->getMedia('gallery');
+
+                if ($gallery->isEmpty()) {
+                    return null;
+                }
+
                 return [
                     'id' => $event->id,
                     'name' => $event->name,
                     'date' => date('j. n. Y', strtotime($event->date)),
                     'gallery' => $event->getMedia('gallery')
                         ->map(function ($media) {
-                            try {
-                                [$width, $height] = @getimagesize($media->getPath());
-                            } catch (\Throwable $e) {
-                                $width = null;
-                                $height = null;
+                            $path = $media->getPath('original') ?? $media->getPath();
+
+                            $width = null;
+                            $height = null;
+
+                            if ($path && @is_file($path)) {
+                                [$width, $height] = @getimagesize($path) ?: [null, null];
                             }
 
                             return [
-                                'url'    => $media->getUrl(),        // or getUrl('info') if you want the conversion
-                                'width'  => $width,
-                                'height' => $height,
+                                'thumb_url'     => $media->getUrl('thumb'),
+                                'thumb_srcset'  => $media->getSrcset('thumb'),
+                                'large_url'     => $media->getUrl('original'),
+                                'large_srcset'  => $media->getSrcset('original'),
+                                'width'         => $width,
+                                'height'        => $height,
                             ];
                         })
-                        ->values()     // reindex collection -> nice JS array
+                        ->values()
                         ->toArray(),
                 ];
             })
-            ->values();                // same here – get plain 0-based array
+            ->values();
 
         return response()->json($events);
     }

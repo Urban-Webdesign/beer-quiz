@@ -1,5 +1,4 @@
 <script setup>
-import axios from "axios";
 import { ref, onMounted, watch } from "vue";
 import { formatCzechDate } from '../dateFormatter.js'
 import { useRoute } from "vue-router";
@@ -46,7 +45,6 @@ watch(() => route.params.id, fetchEventResults);
 
 <template>
   <div>
-    <!-- Datum + Název -->
     <div v-if="isLoading" class="animate-pulse text-center mb-3">
       <div class="h-5 w-40 bg-gray-200 rounded mx-auto mb-2"></div>
       <div class="h-8 w-60 bg-gray-300 rounded mx-auto"></div>
@@ -56,9 +54,7 @@ watch(() => route.params.id, fetchEventResults);
       <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-center mb-3">{{ event.name }}</h2>
     </div>
 
-    <!-- Navigace + Výsledky -->
     <div class="min-h-[500px] grid grid-cols-2 lg:grid-cols-[1fr,4fr,1fr] lg:items-center gap-4">
-      <!-- Navigační šipky (zůstávají vždy) -->
       <router-link
           class="order-2 lg:order-1 rounded lg:h-60 flex flex-col gap-3 justify-center items-center uppercase px-3 py-2 bg-white/25 hover:bg-white/50"
           :class="{ 'opacity-50 pointer-events-none': !previousEventId }"
@@ -85,7 +81,6 @@ watch(() => route.params.id, fetchEventResults);
         Předchozí
       </router-link>
 
-      <!-- Skeleton nebo Výsledky -->
       <div class="col-span-2 lg:col-span-1 order-1 lg:order-2">
         <div class="bg-gray-50 p-3 rounded-xl">
           <div v-if="isLoading" class="space-y-4">
@@ -127,7 +122,6 @@ watch(() => route.params.id, fetchEventResults);
         </div>
       </div>
 
-      <!-- Navigační šipka vpravo -->
       <router-link
           class="rounded order-2 lg:order-3 lg:h-60 flex flex-col gap-3 justify-center items-center uppercase px-3 py-2 bg-white/25 hover:bg-white/50"
           :class="{ 'opacity-50 pointer-events-none': !nextEventId }"

@@ -2,31 +2,42 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Image\Enums\Fit;
 
 class Event extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use InteractsWithMedia;
 
     protected $fillable = ['name', 'date', 'shootout', 'register_from', 'capacity'];
 
-	public function registerMediaConversions(Media $media = null): void
-	{
-		$this->addMediaConversion('info') // název konverze je libovolný
-		->nonQueued(); // synchronní zpracování (užitečné při ladění)
-	}
-
 	public function registerMediaCollections(): void
 	{
-		$this->addMediaCollection('gallery')->useDisk('public');
+		$this->addMediaCollection('gallery')
+            ->useDisk('public')
+            ->withResponsiveImages();
 	}
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->format('webp')
+            ->fit(Fit::Max, 400, 300)
+            ->optimize()
+            ->performOnCollections('gallery');
+
+        $this
+            ->addMediaConversion('original')
+            ->format('webp')
+            ->fit(Fit::Max, 1600, 1200)
+            ->optimize()
+            ->performOnCollections('gallery');
+    }
 
     public function teams(): BelongsToMany
     {

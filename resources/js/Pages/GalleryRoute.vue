@@ -15,16 +15,16 @@ onMounted(async () => {
         }
 
         const data = await res.json()
-        console.log('Loaded events:', data) // <— see what actually comes from API
+        console.log('Loaded events:', data)
 
         events.value = Array.isArray(data) ? data : []
 
-        // Wait for DOM to be updated with the new events
         await nextTick()
 
         lightbox = new PhotoSwipeLightbox({
             gallery: '.pswp-gallery',
             children: 'a',
+            showHideAnimationType: 'zoom',
             pswpModule: () => import('photoswipe'),
         })
 
@@ -46,7 +46,6 @@ onBeforeUnmount(() => {
     <div>
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-black mb-2">Galerie</h2>
 
-        <!-- helpful debug states -->
         <p v-if="!events || events.length === 0" class="text-sm text-gray-500">
             Zatím tu není žádná galerie.
         </p>
@@ -63,17 +62,23 @@ onBeforeUnmount(() => {
                     >
                         <a
                             v-for="image in event.gallery"
-                            :key="image.url"
-                            :href="image.url"
-                            :data-pswp-width="image.width || 1200"
-                            :data-pswp-height="image.height || 800"
+                            :key="image.large_url"
+                            :href="image.large_url"
+                            :data-pswp-width="image.width"
+                            :data-pswp-height="image.height"
+                            :data-pswp-srcset="image.large_srcset"
                             target="_blank"
                             rel="noopener"
                         >
                             <img
-                                :src="image.url"
+                                :src="image.thumb_url"
+                                :srcset="image.thumb_srcset"
+                                sizes="(max-width: 640px) 50vw,
+                                (max-width: 1024px) 33vw,
+                                300px"
                                 alt="Galerie"
                                 class="md:max-w-[300px] md:max-h-[150px] w-full h-auto rounded shadow-sm hover:shadow-lg transition"
+                                loading="lazy"
                             />
                         </a>
                     </div>
@@ -81,8 +86,6 @@ onBeforeUnmount(() => {
             </div>
         </div>
 
-        <!-- Root element for PhotoSwipe (v5 doesn’t actually require the old .pswp element,
-             but keeping it won’t hurt) -->
         <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"></div>
     </div>
 </template>
