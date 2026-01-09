@@ -15,7 +15,6 @@ onMounted(async () => {
         }
 
         const data = await res.json()
-        console.log('Loaded events:', data)
 
         events.value = Array.isArray(data) ? data : []
 

@@ -32,7 +32,7 @@ const fetchEventResults = async () => {
       r.inShootout = isShootout && r.score === maxScore;
     });
   } catch (error) {
-    console.log("Chyba při načítání události:", error);
+      // do not log errors to avoid exposing sensitive info
   } finally {
     isLoading.value = false;
   }
