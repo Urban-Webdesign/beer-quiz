@@ -1,6 +1,5 @@
-# Block execution of PHP and any server-side scripts in this static-asset directory.
+com# Block execution of PHP and server-side scripts in this static-asset directory.
 <FilesMatch "\.(php|php3|php4|php5|php7|php8|phtml|phar|pl|py|rb|sh|cgi)$">
     Order Deny,Allow
     Deny from all
 </FilesMatch>
-Options -Indexes -ExecCGI
