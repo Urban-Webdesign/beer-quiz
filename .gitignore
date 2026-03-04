@@ -29,5 +29,9 @@ Homestead.json
 .phpactor.json
 auth.json
 
+# Integrity check baseline — generated on server, not committed
+/public/index.php.baseline
+/public/index.php.sha256
+
 .idea
 bootstrap/cache

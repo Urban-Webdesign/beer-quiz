@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::unguard();
+        // SECURITY: Model::unguard() was removed — it disabled mass-assignment protection on ALL models.
+        // Each model should declare its own $fillable or $guarded instead.
 
         // Fix for "Call to a member function make() on null" error in PendingBroadcast destructor
         // This error occurs when the application terminates and the container is set to null

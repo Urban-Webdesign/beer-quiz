@@ -1,3 +1,63 @@
+# ---------------------------------------------------------------
+# Security: disable directory listing
+# ---------------------------------------------------------------
+Options -Indexes
+
+# ---------------------------------------------------------------
+# Security headers (Apache mod_headers)
+# ---------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Prevent MIME-type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # Enable XSS filter in older browsers
+    Header always set X-XSS-Protection "1; mode=block"
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Basic Content-Security-Policy — tighten per your frontend needs
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self';"
+    # Remove server fingerprint header
+    Header always unset X-Powered-By
+    Header always unset Server
+</IfModule>
+
+# ---------------------------------------------------------------
+# Block direct access to sensitive files
+# ---------------------------------------------------------------
+<FilesMatch "(^\.env|composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|artisan|\.git)">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Block PHP execution everywhere except index.php
+# (belt-and-suspenders: Nginx rules on the server are the main line)
+<FilesMatch "^(?!index).*\.php$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# ---------------------------------------------------------------
+# Block common exploit/scanner paths
+# ---------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block xmlrpc, wp-login and other WordPress scanners
+    RewriteRule ^(xmlrpc\.php|wp-login\.php|wp-admin|\.git|\.svn) - [F,L]
+
+    # Block shell/eval patterns in query strings
+    RewriteCond %{QUERY_STRING} (base64_encode|eval\(|<script|GLOBALS|_REQUEST) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block null bytes
+    RewriteCond %{QUERY_STRING} \0 [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ---------------------------------------------------------------
+# Laravel routing
+# ---------------------------------------------------------------
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
