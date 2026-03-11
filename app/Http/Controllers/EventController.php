@@ -20,7 +20,7 @@ class EventController extends Controller
                     ? round($totalPoints / $event->teams_count, 2)
                     : 0;
 
-                $winningResult = $event->results->sortByDesc('score')->first();
+                $winningResult = $event->results->where('position', 1)->first();
                 $winningTeamName = $winningResult ? $winningResult->team->name : null;
 
                 $event->average_points = $averagePoints;
