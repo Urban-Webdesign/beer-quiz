@@ -4,6 +4,7 @@ namespace App\Filament\Resources\EventResource\Pages;
 
 use App\Filament\Resources\EventResource;
 use App\Filament\Resources\EventResource\Widgets\EventRegistrationsOverview;
+use App\Filament\Resources\EventResource\Widgets\EventResultsEditor;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -18,6 +19,13 @@ class EditEvent extends EditRecord
 		        ->label('Přihlášené týmy')
 		        ->url(fn () => EventResource::getUrl('registrations', ['record' => $this->record])),
             Actions\DeleteAction::make(),
+        ];
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            EventResultsEditor::class,
         ];
     }
 }

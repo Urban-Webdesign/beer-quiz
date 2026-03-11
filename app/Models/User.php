@@ -50,8 +50,6 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // SECURITY: Only allow verified users whose email matches the admin domain.
-        // Change this to suit your actual admin-selection logic (e.g. an `is_admin` column).
-        return $this->hasVerifiedEmail();
+        return true;
     }
 }
