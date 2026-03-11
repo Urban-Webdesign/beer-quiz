@@ -37,7 +37,11 @@ class EventResource extends Resource
                             ->schema([
                                 TextInput::make('name')
                                     ->label('Název')
-                                    ->columnSpan(2)
+                                    ->columnSpan([
+                                        'default' => 1,
+                                        'sm' => 2,
+                                        'lg' => 2,
+                                    ])
                                     ->default('PBQ xx. kolo')
                                     ->required(),
 
@@ -57,7 +61,11 @@ class EventResource extends Resource
                                     ->label('Začátek registrace')
                                     ->default(now()->addDays(14)->hours(18)->minutes(0)->seconds(0)),
                             ])
-                            ->columns(3),
+                            ->columns([
+                                'default' => 1,
+                                'sm' => 2,
+                                'lg' => 3,
+                            ]),
 
                         Tabs\Tab::make('Fotogalerie')
                             ->hidden(fn ($record) => !$record || Carbon::now()->isBefore(Carbon::parse($record->date)))
